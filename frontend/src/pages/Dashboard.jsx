@@ -10,7 +10,7 @@ import ReportResults from '../components/ReportResults'
 import ImageResults from '../components/ImageResults'
 import SpecialistFinder from '../components/SpecialistFinder'
 
-const API_BASE = 'http://localhost:8001'
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8001'
 
 export default function Dashboard({ user, onLogout }) {
   const [activeTab, setActiveTab] = useState('report')

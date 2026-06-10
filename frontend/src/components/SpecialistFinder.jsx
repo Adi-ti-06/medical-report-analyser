@@ -5,7 +5,7 @@ import {
   CheckCircle, Activity, Heart, Navigation
 } from 'lucide-react'
 
-const API_BASE = 'http://localhost:8001'
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8001'
 
 const BADGE_STYLES = {
   indigo: 'bg-indigo-500/15 text-indigo-400 border border-indigo-500/20',
