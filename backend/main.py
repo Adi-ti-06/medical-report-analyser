@@ -19,7 +19,12 @@ app = FastAPI(title="Vitalytics API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5174"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:5174",
+        "https://medical-report-analyser-psi.vercel.app",  # ✅ Vercel production URL
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -529,7 +534,6 @@ async def analyze_report(file: UploadFile = File(...)):
     if DEMO_MODE:
         return JSONResponse(content={"success": True, "type": "report", "analysis": DEMO_REPORT, "demo": True})
 
-    # Extract text from PDF for Groq (Groq does not accept raw PDF files)
     try:
         pdf_text = extract_pdf_text(content)
     except Exception:
@@ -572,7 +576,6 @@ async def analyze_image(file: UploadFile = File(...)):
     ct = file.content_type or ""
     name = file.filename.lower() if file.filename else ""
 
-    # PDFs are not supported for image analysis with Groq vision
     if ct == "application/pdf" or name.endswith(".pdf"):
         raise HTTPException(
             status_code=400,
